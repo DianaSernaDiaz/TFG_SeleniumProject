@@ -13,7 +13,7 @@ import org.openqa.selenium.WebDriver;
 public class Utils {
 
     private static final String filePath =
-        "test-output/RestAssuredReport-" + getNow() + ".png";
+        "test-output/Screenshot-" + getNow() + ".png";
 
     public static String getMonthName(String date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd'/'MM'/'yyyy");

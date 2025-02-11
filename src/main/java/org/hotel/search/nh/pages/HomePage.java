@@ -1,6 +1,7 @@
 package org.hotel.search.nh.pages;
 
 import java.util.List;
+
 import org.hotel.search.common.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -17,45 +18,41 @@ public class HomePage extends BasePage {
 
     @FindBy(id = "calendar-checkin-sb")
     private WebElement checkinInput;
+
     @FindBy(id = "calendar-checkout-sb")
     private WebElement checkoutInput;
+
     @FindBy(id = "optionRooms")
     private WebElement ocupationInput;
+
     @FindBy(id = "btn-search")
     private WebElement searchButton;
+
     @FindBy(id = "consent-prompt-accept")
     private WebElement acceptCookiesButton;
+
     @FindBy(className = "autocomplete-results-list")
     private List<WebElement> destinationList;
 
 
-
-    
     public HomePage(WebDriver driver) {
         super(driver);
         driver.get(URL);
     }
 
     public void setCheckout(String data) {
-        checkoutInput.sendKeys(data);
-        String newValue = checkoutInput.getAttribute("value");
-        if (!data.equals(newValue)) {
-            JavascriptExecutor js = (JavascriptExecutor) driver;
-            js.executeScript("arguments[0].value='" + data + "';", checkoutInput);
-        }
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].value='" + data + "';", checkoutInput);
     }
 
     public void setCheckin(String data) {
-        checkinInput.sendKeys(data);
-        String newValue = checkinInput.getAttribute("value");
-        if (!data.equals(newValue)) {
-            JavascriptExecutor js = (JavascriptExecutor) driver;
-            js.executeScript("arguments[0].value='" + data + "';", checkinInput);
-        }
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].value='" + data + "';", checkinInput);
     }
 
     public void setDestination(String data) {
         destinationInput.sendKeys(data);
+
         if (!destinationList.isEmpty()) {
             WebElement element = destinationList.get(0).findElements(By.tagName("li")).get(0);
             element.click();
@@ -70,8 +67,9 @@ public class HomePage extends BasePage {
 
     }
 
-    public void search() {
+    public HotelsResultPage search() {
         searchButton.click();
+        return new HotelsResultPage(driver);
     }
 
     public void acceptCookies() {

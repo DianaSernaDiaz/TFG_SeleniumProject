@@ -1,0 +1,17 @@
+reports/
+recordings/
+target/
+test-output/
+
+.project
+.classpath
+.DS_Store/
+._.DS_Store
+
+*.jar
+*.rar
+*.zip
+*.log
+*.html
+*.avi
+

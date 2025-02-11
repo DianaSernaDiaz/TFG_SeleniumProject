@@ -1,47 +1,66 @@
 package org.hotel.search.nh;
 
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+
 import org.hotel.search.common.BaseTest;
+import org.hotel.search.common.MyScreenRecorder;
 import org.hotel.search.common.Utils;
 import org.hotel.search.nh.pages.HomePage;
 import org.hotel.search.nh.pages.HotelsResultPage;
 import org.junit.jupiter.api.Test;
+
 import static org.hotel.search.common.Utils.waits;
 
 public class NHTest extends BaseTest {
 
 
-    final static String startDate = "01/12/2024";
-    final static String endDate = "05/12/2024";
+    String startDate = "01/03/2025";
+    String endDate = "05/03/2025";
+    String destination = "Valencia";
 
     @Test
     void searchNHHotels() {
 
-        HomePage homePage = new HomePage(driver);
-        waits(2000);
+        String methodName= "searchNHHotels";
+        ExtentTest extent = extentReports.createTest(methodName);
+        MyScreenRecorder.startRecording("navigationTest_NH");
 
-        homePage.acceptCookies();
-        waits(300);
+        try {
 
-        homePage.setDestination("Valencia");
-        waits(150);
+            HomePage homePage = new HomePage(driver);
+            waits(2000);
 
-        homePage.setCheckin(startDate);
-        waits(160);
+            extent.log(Status.INFO, "Vamos a aceptar cookies");
+            homePage.acceptCookies();
+            extent.log(Status.INFO, "Se han aceptado las cookies correctamente");
+            waits(300);
 
-        homePage.setCheckout(endDate);
-        waits(200);
+            extent.log(Status.INFO, "Elegimos la ciudad de destino");
+            homePage.setDestination(destination);
+            waits(150);
 
-        homePage.setOcupation("1 habitación, 2 adultos ");
-        waits(100);
+            extent.log(Status.INFO, "Elegimos la fecha de entrada");
+            homePage.setCheckin(startDate);
+            waits(160);
 
-        homePage.search();
+            extent.log(Status.INFO, "Elegimos la fecha de salida");
+            homePage.setCheckout(endDate);
+            waits(200);
 
-        waits(10000);
+            HotelsResultPage hotelsResultPage = homePage.search();
+            waits(10000);
 
-        HotelsResultPage hotelsResultPage = new HotelsResultPage(driver);
-        hotelsResultPage.printData();
+            hotelsResultPage.printData();
+            extent.log(Status.PASS, "Success.");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Utils.takeScreenshot(driver);
+            extent.log(Status.FAIL, "Error while execution.");
+        } finally {
+            MyScreenRecorder.stopRecording();
+        }
 
     }
-
-    // Repeat the search method for Eurostars and Melia
 }

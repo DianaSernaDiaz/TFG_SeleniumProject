@@ -15,7 +15,7 @@ public class BasePage {
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
-        PageFactory.initElements(new AjaxElementLocatorFactory(driver, TIMEOUT), this);
+        PageFactory.initElements(new AjaxElementLocatorFactory(driver, TIMEOUT), this); // Indica que es asincrono
         wait = new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT));
     }
 }

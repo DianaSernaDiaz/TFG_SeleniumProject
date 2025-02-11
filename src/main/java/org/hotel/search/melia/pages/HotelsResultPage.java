@@ -18,9 +18,9 @@ public class HotelsResultPage extends BasePage {
 
     public void printData() {
         for (WebElement element : hotelsResultList) {
-            String title = element.findElement(By.xpath(".//span"))
+            String title = element.findElement(By.xpath(".//div[starts-with(@class, 'b-rich-text')]"))
                 .getText();
-            String price = element.findElement(By.xpath(".//span[starts-with(@class,'text-wrapper')]/div"))
+            String price = element.findElement(By.xpath(".//strong"))
                 .getText();
 
             System.out.printf("Hotel: %s - ", title);

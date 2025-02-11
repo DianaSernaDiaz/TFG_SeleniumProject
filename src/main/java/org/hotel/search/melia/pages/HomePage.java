@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.hotel.search.common.BasePage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -166,17 +167,22 @@ public class HomePage extends BasePage {
         return elementoEncontrado;
     }
 
-    public void search() {
+    public HotelsResultPage search() {
         searchButton.click();
+        return new HotelsResultPage(driver);
     }
 
     public void acceptCookies() {
         acceptCookiesButton.click();
         waits(3000);
 
-        if (offerButton.isDisplayed()) {
-            offerButton.click();
-            wait.until(ExpectedConditions.invisibilityOf(offerButton));
+        try {
+            if (offerButton.isDisplayed()) {
+                offerButton.click();
+                wait.until(ExpectedConditions.invisibilityOf(offerButton));
+            }
+        } catch (NoSuchElementException e) {
+            System.out.println("El botón de oferta no se encontró. Continuando...");
         }
     }
 

@@ -17,24 +17,19 @@ public class HomePage extends BasePage {
 
     private static final String URL = "https://www.eurostarshotels.co.uk/";
 
-    @FindBy(id = "searchBoxEngine")
+    @FindBy(xpath = "//input[@placeholder='Select your destination or hotel.']")
     private WebElement destinationInput;
-    @FindBy(id = "optionRooms")
-    private WebElement ocupationInput;
     @FindBy(id = "td-search-00")
     private WebElement searchButton;
     @FindBy(className = "sta-cookies_confirm")
     private WebElement acceptCookiesButton;
-    @FindBy(className = "autocomplete-results-list")
-    private List<WebElement> destinationList;
+
 
 
     public HomePage(WebDriver driver) {
         super(driver);
         driver.get(URL);
     }
-
-
 
     public void setCheckout(String data) {
 
@@ -122,12 +117,9 @@ public class HomePage extends BasePage {
         divBelowSpan.click();
     }
 
-    public void setOcupation(String ocupation) {
-        ocupationInput.sendKeys(ocupation);
-    }
-
-    public void search() {
+    public HotelsResultPage search() {
         searchButton.click();
+        return new HotelsResultPage(driver);
     }
 
     public void acceptCookies() {
