@@ -11,16 +11,16 @@ import org.hotel.search.common.MyScreenRecorder;
 import org.hotel.search.common.Utils;
 import org.hotel.search.eurostars.pages.HomePage;
 import org.hotel.search.eurostars.pages.HotelsResultPage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class EurostarsTest extends BaseTest {
 
-    String startDate = "01/03/2025";
-    String endDate = "05/03/2025";
-    String destination = "Valencia";
-
     @Test
     void searchEuroStarsHotels() {
+        String startDate = "01/03/2025";
+        String endDate = "05/03/2025";
+        String destination = "Valencia";
 
         String methodName = "searchEuroStarsHotels";
         ExtentTest extent = extentReports.createTest(methodName);
@@ -49,16 +49,20 @@ public class EurostarsTest extends BaseTest {
             homePage.setCheckout(endDate);
             waits(200);
 
+            extent.log(Status.INFO, "Se va ha pulsar el boton buscar");
             HotelsResultPage hotelsResultPage = homePage.search();
 
             waits(5000);
+            extent.log(Status.INFO, "Se ha pulsado en el boton buscar");
+            extent.log(Status.INFO, "Se va mostrar los resultados de la busqueda");
             hotelsResultPage.printData();
             extent.log(Status.PASS, "Success.");
 
         } catch (Exception e) {
             e.printStackTrace();
             Utils.takeScreenshot(driver);
-            extent.log(Status.FAIL, "Error while execution.");
+            extent.log(Status.FAIL, e.getMessage());
+            Assertions.fail(); // indica que el test ha fallado
         } finally {
             MyScreenRecorder.stopRecording();
         }
